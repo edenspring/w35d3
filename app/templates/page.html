@@ -70,16 +70,14 @@
     {% if owner_form %}
         {% include 'changeowner.html' %}
     {% endif%}
-    <!--  -->
-    {% if new_owner_form %}
-        {% include 'newowner.html' %}
-    {% endif %}
+    <!-- Add new owner form! -->
+    
     <!--  -->
     {% if errors %}
         {% include 'errors.html' %}
     {% endif %}
-    <!--  -->
-    {{session}}
+    <!-- Add Session data! -->
+
 </body>
 
 </html>

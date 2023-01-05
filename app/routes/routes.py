@@ -1,5 +1,7 @@
-from flask import Blueprint, redirect, render_template, session
-from app.forms import NewCarForm, ChangeOwner, NewOwnerForm
+from flask import Blueprint, redirect, render_template
+# import session!
+from app.forms import NewCarForm, ChangeOwner
+# don't forget to import your new form once its created!
 from app import dbfuncs
 
 app_routes = Blueprint("app", __name__)
@@ -18,17 +20,14 @@ def validation_errors_to_error_messages(validation_errors):
 
 @app_routes.route('/')
 def home():
-    if 'home_views' in session:
-        session['home_views'] = session['home_views'] + 1
-    else:
-        session['home_views'] = + 1
+    # add session info to track the number of visits to the homepage!
     info = {
         "title": "CARS CARS CARS",
         "header": "THIS IS THE CARS HOME PAGE!"
     }
     cars = dbfuncs.get_cars_with_owners()
     owners = dbfuncs.get_all_owners()
-    return render_template("page.html", cars=cars, info=info, owners=owners, session=session)
+    return render_template("page.html", cars=cars, info=info, owners=owners)
 
 
 @app_routes.route('/test')
@@ -42,13 +41,10 @@ def test():
 
 @app_routes.route('/form', methods=('GET', 'POST'))
 def form():
+    # Add session info to keep track of how many cars get added!
     form = NewCarForm()
     errors = []
     if form.validate_on_submit():
-        if 'new_cars' in session:
-            session['new_cars'] = session['new_cars'] + 1
-        else:
-            session['new_cars'] = + 1
         dbfuncs.add_new_car(form.manu_year.data, form.make.data,
                             form.model.data, form.owner_id.data)
         return redirect("/")
@@ -66,12 +62,9 @@ def form():
 
 @app_routes.route("/change-owners", methods=('GET', 'POST'))
 def change():
+    # add session info to see how many times cars change owners!
     form = ChangeOwner()
     if form.validate_on_submit():
-        if 'cars_traded' in session:
-            session['cars_traded'] = session['cars_traded'] + 1
-        else:
-            session['cars_traded'] = + 1
         dbfuncs.change_car_owner(
             car_id=form.car_id.data, new_owner_id=form.owner_id.data)
         return redirect("/")
@@ -86,22 +79,5 @@ def change():
 
 @app_routes.route("/add-owner", methods=('GET', 'POST'))
 def new_owner():
-    form = NewOwnerForm()
-    errors = []
-    if form.validate_on_submit():
-        if 'new_owners' in session:
-            session['new_owners'] = session['new_owners'] + 1
-        else:
-            session['new_owners'] = + 1
-        dbfuncs.add_new_owner(form.first_name.data,
-                              form.last_name.data, form.email.data)
-        return redirect("/")
-    elif len(form.errors) > 1:
-        errors = validation_errors_to_error_messages(form.errors)
-    info = {
-        "title": "NEW OWNER FORM!",
-        "header": "ADD A NEW OWNER 😎"
-    }
-    cars = dbfuncs.get_cars_with_owners()
-    owners = dbfuncs.get_all_owners()
-    return render_template("page.html", info=info, cars=cars, owners=owners, new_owner_form=form, errors=errors)
+    # Build the new owner route!
+    pass
