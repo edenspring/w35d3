@@ -2,14 +2,44 @@
 
 <head>
     <!-- Add title here! -->
+    <title>
+        {{ info.title }}
+    </title>
 </head>
 
 <body>
-    <!-- Add the nav.html! -->
+    {% include 'nav.html' %}
     <marquee>CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS</marquee>
-    <!-- Add header here! -->
-    <div>{{ cars }}</div>
-    <!-- Gussy up them cars by building a table!Use the owner table below for guidance -->
+    <h1>
+        {{ info.header }}
+    </h1>
+    {% if cars %}
+    <table>
+        <thead>
+            <tr>
+                <th>CAR ID</th>
+                <th>MANUFACTURED YEAR</th>
+                <th>MAKE</th>
+                <th>MODEL</th>
+                <th>OWNER FIRST NAME</th>
+                <th>OWNER LAST NAME</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for car in cars%}
+            <tr>
+                <td>{{ car[0]}}</td>
+                <td>{{ car[1]}}</td>
+                <td>{{ car[2]}}</td>
+                <td>{{ car[3]}}</td>
+                <td>{{ car[4]}}</td>
+                <td>{{ car[5]}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <!--  -->
     {% if owners %}
     <table>
         <thead>
@@ -32,9 +62,24 @@
         </tbody>
     </table>
     {% endif %}
-    <!-- check for the form! -->
-    <!-- check for the owner form! -->
-   
+    <!--  -->
+    {% if form %}
+        {% include 'newcar.html' %}
+    {% endif%}
+    <!--  -->
+    {% if owner_form %}
+        {% include 'changeowner.html' %}
+    {% endif%}
+    <!--  -->
+    {% if new_owner_form %}
+        {% include 'newowner.html' %}
+    {% endif %}
+    <!--  -->
+    {% if errors %}
+        {% include 'errors.html' %}
+    {% endif %}
+    <!--  -->
+    {{session}}
 </body>
 
 </html>

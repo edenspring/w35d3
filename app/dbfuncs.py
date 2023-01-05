@@ -8,6 +8,13 @@ def get_all_cars():
         cars = curs.fetchall()
         return cars
 
+def get_cars_with_owners():
+    with sqlite3.connect("dev.db") as conn:
+        curs = conn.cursor()
+        curs.execute('SELECT cars.id, manu_year, make, model, owners.first_name, owners.last_name FROM cars INNER JOIN owners on cars.owner_id=owners.id;')
+        cars = curs.fetchall()
+        return cars
+
 
 def get_owners_cars(owner_id):
     """
@@ -82,6 +89,22 @@ def get_all_owners():
                      SELECT * FROM owners
                      """)
         return curs.fetchall()
+
+
+def add_new_owner(first_name, last_name, email):
+    """
+    Add the given owner to the database
+    :param first_name: <string> the first name of the owner
+    :param last_name: <string> the last name of the owner
+    :param email: <string> the email of the owner
+    """
+    with sqlite3.connect("dev.db") as conn:
+        curs = conn.cursor()
+        curs.execute("""
+                     INSERT INTO owners (first_name, last_name, email)
+                     VALUES (:first_name, :last_name, :email)
+                     """,
+                     {'first_name': first_name, 'last_name': last_name, 'email': email})
 
 
 BUNCH_OF_SQL = """
