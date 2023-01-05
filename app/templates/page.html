@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <!-- Add title here! -->
+</head>
+
+<body>
+    <!-- Add the nav.html! -->
+    <marquee>CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS CARS</marquee>
+    <!-- Add header here! -->
+    <div>{{ cars }}</div>
+    <!-- Gussy up them cars by building a table!Use the owner table below for guidance -->
+    {% if owners %}
+    <table>
+        <thead>
+            <tr>
+                <th>OWNER ID</th>
+                <th>FIRST NAME</th>
+                <th>LAST NAME</th>
+                <th>EMAIL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for owner in owners %}
+            <tr>
+                <td>{{ owner[0]}}</td>
+                <td>{{ owner[1]}}</td>
+                <td>{{ owner[2]}}</td>
+                <td>{{ owner[3]}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <!-- check for the form! -->
+    <!-- check for the owner form! -->
+   
+</body>
+
+</html>
